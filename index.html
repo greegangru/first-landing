@@ -1,0 +1,909 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEXT4FREE — бесплатные тексты для песен</title>
+  <style>
+    :root {
+      --bg: #070b16;
+      --bg-soft: #0d1324;
+      --panel: rgba(10, 16, 33, 0.88);
+      --panel-light: rgba(255,255,255,0.08);
+      --text: #f8fafc;
+      --text-muted: rgba(248, 250, 252,0.72);
+      --accent: #3b82f6;
+      --accent-soft: rgba(59,130,246,0.14);
+      --border: rgba(255,255,255,0.08);
+      --shadow: 0 30px 60px rgba(0,0,0,0.28);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      background: radial-gradient(circle at top, rgba(59,130,246,0.12), transparent 20%),
+                  radial-gradient(circle at 20% 10%, rgba(255,255,255,0.08), transparent 16%),
+                  linear-gradient(180deg, var(--bg) 0%, #0b1322 42%, #101827 100%);
+      color: var(--text);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .page {
+      overflow: hidden;
+    }
+
+    .nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 20;
+      padding: 24px 20px;
+      background: rgba(7, 11, 22, 0.48);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-inner {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: 0.14em;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #fff;
+      font-size: 16px;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #3b82f6, #60a5fa);
+      color: #07101c;
+      box-shadow: 0 16px 32px rgba(59,130,246,0.28);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: rgba(255,255,255,0.72);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+    }
+
+    .nav-links a {
+      position: relative;
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.25s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .hero {
+      min-height: 100vh;
+      padding: 140px 20px 80px;
+      display: grid;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 18%, rgba(59,130,246,0.18), transparent 24%),
+                  radial-gradient(circle at 78% 12%, rgba(255,255,255,0.08), transparent 18%);
+      pointer-events: none;
+    }
+
+    .container {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 46px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 24px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(48px, 7vw, 82px);
+      font-weight: 900;
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      max-width: 720px;
+    }
+
+    .hero-title strong {
+      display: block;
+      color: var(--accent);
+    }
+
+    .hero-copy {
+      margin: 28px 0 18px;
+      max-width: 640px;
+      color: var(--text-muted);
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    .hero-note {
+      max-width: 620px;
+      color: rgba(255,255,255,0.64);
+      line-height: 1.85;
+      font-size: 15px;
+    }
+
+    .button-note {
+      margin-top: 18px;
+      color: rgba(255,255,255,0.7);
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 520px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .button,
+    .button-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 68px;
+      padding: 0 34px;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, color 0.25s ease;
+    }
+
+    .button {
+      color: #fff;
+      background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+      box-shadow: 0 24px 72px rgba(59,130,246,0.28);
+      border: none;
+      font-size: 15px;
+      text-transform: uppercase;
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 30px 80px rgba(59,130,246,0.38);
+    }
+
+    .button.final-button {
+      min-width: 280px;
+      padding: 0 42px;
+      font-size: 16px;
+    }
+
+    .button-ghost {
+      color: #fff;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(14px);
+    }
+
+    .button-ghost:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-2px);
+    }
+
+    .hero-visual {
+      display: grid;
+      gap: 24px;
+    }
+
+    .panel {
+      position: relative;
+      border-radius: 34px;
+      padding: 24px;
+      background: var(--panel);
+      border: 1px solid var(--panel-light);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+      overflow: hidden;
+    }
+
+    .hero-panel-note {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 22px;
+      align-items: center;
+      justify-items: center;
+      min-height: 460px;
+    }
+
+    
+
+    /* Rotating note removed per user request */
+
+    .brand-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-right: 10px;
+      vertical-align: middle;
+      display: inline-block;
+      transition: transform 340ms cubic-bezier(.2,.9,.3,1);
+    }
+
+    .interactive-avatar { perspective: 1000px; }
+
+    .panel.interactive-avatar {
+      transform-style: preserve-3d;
+      transition: transform 420ms cubic-bezier(.2,.9,.3,1);
+      will-change: transform;
+    }
+
+    .panel.interactive-avatar * {
+      transform-style: preserve-3d;
+    }
+
+    .panel-avatar-frame {
+      width: 140px;
+      height: 140px;
+      border-radius: 18px;
+      overflow: hidden;
+      margin: 0 auto 18px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      box-shadow: 0 22px 46px rgba(0,0,0,0.22);
+    }
+
+    .panel-avatar-frame img.panel-avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 420ms cubic-bezier(.2,.9,.3,1);
+      transform-origin: center center;
+    }
+
+    .panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 90% 10%, rgba(255,255,255,0.08), transparent 28%),
+                  radial-gradient(circle at 15% 80%, rgba(59,130,246,0.12), transparent 24%);
+      pointer-events: none;
+    }
+
+    .collage {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .artist-card {
+      border-radius: 24px;
+      padding: 20px;
+      min-height: 106px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.08));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    .artist-card strong {
+      font-size: 22px;
+      color: #fff;
+      line-height: 1.15;
+    }
+
+    .artist-card span {
+      color: rgba(255,255,255,0.68);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .artist-card.large {
+      grid-column: span 2;
+      min-height: 170px;
+      padding: 28px;
+    }
+
+    .artist-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 70% 20%, rgba(59,130,246,0.16), transparent 30%);
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .artist-card.large::before {
+      background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.12), transparent 30%);
+    }
+
+    .hero-small {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 12px;
+    }
+
+    .stat-chip {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 18px 20px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .stat-chip strong {
+      font-size: 28px;
+      color: var(--accent);
+      letter-spacing: -0.04em;
+    }
+
+    .stat-chip span {
+      font-size: 12px;
+      color: rgba(255,255,255,0.72);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .section {
+      padding: 100px 20px;
+    }
+
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 36px;
+    }
+
+    .section-title {
+      font-size: clamp(40px, 6vw, 58px);
+      margin: 0;
+      color: #fff;
+      font-weight: 900;
+      line-height: 1.04;
+    }
+
+    .section-lead {
+      margin: 18px 0 0;
+      color: var(--text-muted);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .feature-card {
+      position: relative;
+      padding: 30px;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      box-shadow: 0 22px 48px rgba(0,0,0,0.22);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(59,130,246,0.35);
+    }
+
+    .feature-card span {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: rgba(59,130,246,0.16);
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .feature-card h3 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.25;
+      color: #fff;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--text-muted);
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .counter-card {
+      padding: 28px 20px;
+      text-align: center;
+      border-radius: 26px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.22);
+    }
+
+    .counter-card strong {
+      display: block;
+      font-size: 42px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .counter-card span {
+      color: rgba(255,255,255,0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 12px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .gallery-card {
+      position: relative;
+      min-height: 280px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .gallery-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 30%, rgba(7,11,22,0.9) 100%);
+    }
+
+    .gallery-card-content {
+      position: relative;
+      z-index: 1;
+      padding: 28px;
+    }
+
+    .gallery-card strong {
+      margin: 0 0 10px;
+      font-size: 24px;
+      color: #fff;
+      line-height: 1.15;
+    }
+
+    .gallery-card p {
+      margin: 0;
+      color: rgba(255,255,255,0.76);
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
+    .about-section {
+      padding: 34px 34px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 24px 50px rgba(0,0,0,0.2);
+    }
+
+    .about-copy {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.9;
+      color: var(--text-muted);
+    }
+
+    .cta-section {
+      padding: 90px 20px 100px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.04));
+    }
+
+    .cta-section h2 {
+      margin: 0;
+      font-size: clamp(44px, 7vw, 72px);
+      line-height: 1.04;
+      color: #fff;
+    }
+
+    .cta-section p {
+      max-width: 720px;
+      margin: 24px auto 34px;
+      color: var(--text-muted);
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    .final-button {
+      min-width: 240px;
+      width: auto;
+    }
+
+    .footer {
+      padding: 30px 20px 40px;
+      background: #05070f;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .footer-inner {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      color: rgba(255,255,255,0.72);
+    }
+
+    .footer a {
+      color: var(--accent);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid,
+      .cards-grid,
+      .stats-grid,
+      .gallery-grid,
+      .reviews-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero {
+        padding-top: 120px;
+      }
+      .hero-actions {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .nav-links {
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+      .hero {
+        padding-top: 110px;
+      }
+      .hero-title {
+        font-size: 38px;
+      }
+      .hero-copy,
+      .section-lead,
+      .about-copy,
+      .gallery-card p,
+      .hero-note {
+        font-size: 15px;
+      }
+      .stat-chip strong {
+        font-size: 24px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .hero {
+        padding-top: 100px;
+      }
+      .nav {
+        padding: 18px 16px;
+      }
+      .nav-links {
+        gap: 12px;
+        font-size: 13px;
+      }
+      .hero-title {
+        font-size: 32px;
+      }
+      .hero-actions {
+        gap: 12px;
+      }
+      .feature-card,
+      .counter-card,
+      .gallery-card {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" id="top">
+      <header class="nav" aria-label="Главная навигация">
+        <div class="nav-inner">
+          <a class="brand" href="#top" aria-label="TEXT4FREE — главная">
+            <img class="brand-avatar" src="avatar.png.jpg" alt="TEXT4FREE avatar" />
+            TEXT4FREE
+          </a>
+          <nav class="nav-links" aria-label="Меню сайта">
+            <a href="#about">О проекте</a>
+            <a href="#benefits">Преимущества</a>
+            <a class="button" href="https://t.me/freetextbit" target="_blank" rel="noopener noreferrer">Вступить</a>
+          </nav>
+        </div>
+      </header>
+
+      <div class="container hero-grid">
+        <div class="hero-copy-wrap reveal">
+          <div class="eyebrow">Крупнейшая библиотека текстов</div>
+          <h1 class="hero-title">БЕСПЛАТНЫЕ ТЕКСТЫ ДЛЯ ПЕСЕН <strong>КАЖДЫЙ ДЕНЬ</strong></h1>
+          <p class="hero-copy">Больше не трать часы на поиск вдохновения. Получай готовые тексты, идеи, хуки, панчи и строки для треков каждый день в одном месте.</p>
+          <p class="hero-note">TEXT4FREE помогает артистам, сонграйтерам и музыкантам бороться с творческим выгоранием и находить новые идеи для музыки быстрее.</p>
+          <div class="hero-actions">
+            <a class="button" href="https://t.me/freetextbit" target="_blank" rel="noopener noreferrer">Вступить в Telegram</a>
+          </div>
+          <p class="button-note">Подпишись сейчас и получай свежие тексты, идеи и хуки прямо в канале.</p>
+        </div>
+
+        <div class="hero-visual reveal" aria-hidden="true">
+          <div class="panel hero-panel-note interactive-avatar" data-tilt="panel">
+            <div class="panel-avatar-frame">
+              <img src="avatar.png.jpg" alt="TEXT4FREE avatar" class="panel-avatar-img" />
+            </div>
+            <div class="hero-small">
+              <div class="stat-chip"><strong>13 500+</strong><span>подписчиков</span></div>
+              <div class="stat-chip"><strong>1000+</strong><span>текстов</span></div>
+              <div class="stat-chip"><strong>100+</strong><span>новых публикаций</span></div>
+              <div class="stat-chip"><strong>миллионы</strong><span>прослушиваний</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container reveal">
+        <div class="section-head">
+          <h2 class="section-title">О проекте</h2>
+        </div>
+        <div class="about-section">
+          <p class="about-copy">TEXT4FREE — это музыкальная платформа для артистов, авторов песен и всех, кто связан с музыкой. Каждый день здесь публикуются бесплатные тексты, идеи для песен, строки для TikTok, панчи, хуки и материалы для вдохновения.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section" id="benefits">
+      <div class="container reveal">
+        <div class="section-head">
+          <h2 class="section-title">Почему TEXT4FREE</h2>
+          <p class="section-lead">Премиальный источник идей для артистов, сонграйтеров и всех, кто хочет создавать треки быстрее.</p>
+        </div>
+
+        <div class="cards-grid">
+          <article class="feature-card"><span>01</span><h3>Борьба с выгоранием</h3><p>Получай новые идеи каждый день и не оставайся один на один с творческим кризисом.</p></article>
+          <article class="feature-card"><span>02</span><h3>Экономия времени</h3><p>Не нужно часами искать вдохновение — готовые строки уже ждут тебя.</p></article>
+          <article class="feature-card"><span>03</span><h3>Строки для TikTok</h3><p>Готовые вирусные идеи для коротких видео, которые легко превращаются в хиты.</p></article>
+          <article class="feature-card"><span>04</span><h3>Панчи и хуки</h3><p>Мощные фразы для припевов и куплетов, которые остаются в голове.</p></article>
+          <article class="feature-card"><span>05</span><h3>Музыкальное комьюнити</h3><p>Ты среди людей, которые живут музыкой и делятся реальными идеями.</p></article>
+          <article class="feature-card"><span>06</span><h3>Бесплатный доступ</h3><p>Весь основной контент доступен бесплатно — бери идеи и делай треки.</p></article>
+        </div>
+      </div>
+    </section>
+
+      </div>
+    </section>
+
+    <section class="cta-section reveal">
+      <div class="container">
+        <h2>ТВОЯ СЛЕДУЮЩАЯ ПЕСНЯ НАЧИНАЕТСЯ ЗДЕСЬ</h2>
+        <p>Присоединяйся к тысячам музыкантов, которые уже используют TEXT4FREE каждый день.</p>
+        <a class="button final-button" href="https://t.me/freetextbit" target="_blank" rel="noopener noreferrer">Вступить в Telegram</a>
+        <p class="button-note">Нажми, чтобы сразу получить бесплатные тексты и свежие идеи для треков.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>TEXT4FREE © 2026</div>
+      <div>Telegram: <a href="https://t.me/freetextbit" target="_blank" rel="noopener noreferrer">t.me/freetextbit</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const revealItems = document.querySelectorAll('.reveal');
+    const counters = document.querySelectorAll('[data-target]');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          if (entry.target.closest('#stats')) {
+            startCounters();
+          }
+        }
+      });
+    }, { threshold: 0.2 });
+
+    revealItems.forEach(item => observer.observe(item));
+
+    let hasCounted = false;
+    function startCounters() {
+      if (hasCounted) return;
+      hasCounted = true;
+      counters.forEach(counter => {
+        const target = +counter.dataset.target;
+        const duration = 1600;
+        const step = Math.max(1, Math.round(target / (duration / 16)));
+        let current = 0;
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) {
+            counter.textContent = String(target).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            clearInterval(timer);
+          } else {
+            counter.textContent = String(current).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+          }
+        }, 16);
+      });
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (event) => {
+        const href = link.getAttribute('href');
+        if (href.length > 1) {
+          event.preventDefault();
+          document.querySelector(href)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Interactive tilt for avatar images
+    (function(){
+      const maxRotate = 14; // degrees
+      const depth = 14; // px translateZ
+
+      function bindTilt(container){
+        const img = container.querySelector('img');
+        const target = (container.dataset.tilt === 'panel') ? container : (img || container);
+        let raf = null;
+        function frameMove(clientX, clientY){
+          const rect = container.getBoundingClientRect();
+          const nx = (clientX - rect.left) / rect.width - 0.5; // -0.5 .. 0.5
+          const ny = (clientY - rect.top) / rect.height - 0.5;
+          const ry = nx * maxRotate * 2;
+          const rx = -ny * maxRotate * 2;
+          target.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateZ(${depth}px)`;
+        }
+
+        container.addEventListener('mousemove', (e)=>{
+          if(raf) cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(()=> frameMove(e.clientX, e.clientY));
+        });
+
+        container.addEventListener('mouseleave', ()=>{
+          if(raf) cancelAnimationFrame(raf);
+          target.style.transition = 'transform 700ms cubic-bezier(.2,.9,.3,1)';
+          target.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0px)';
+          setTimeout(()=> target.style.transition = '', 760);
+        });
+
+        container.addEventListener('mouseenter', ()=>{
+          target.style.transition = '';
+        });
+      }
+
+      // Make brand avatar's parent interactive
+      document.querySelectorAll('img.brand-avatar').forEach(img => {
+        const parent = img.parentElement;
+        if(parent) parent.classList.add('interactive-avatar');
+      });
+
+      document.querySelectorAll('.interactive-avatar').forEach(bindTilt);
+    })();
+
+  </script>
+</body>
+</html>
