@@ -85,7 +85,63 @@ const pages = [
   ["muzykalnye-zagotovki", "Музыкальные заготовки", "Музыкальные заготовки, строки и идеи для артистов, которые хотят быстрее записать трек.", "заготовки"],
 ];
 
-const related = pages.slice(0, 12);
+const hiddenPages = [
+  ["biblioteka/nastroenie/grustnye-teksty-dlya-pesen", "Грустные тексты для песен", "Грустные тексты для песен, когда нужен минорный вайб, боль, чувства и честная первая строка.", "грустные тексты"],
+  ["biblioteka/nastroenie/teksty-pro-rasstavanie", "Тексты про расставание", "Тексты про расставание, поздние переписки, пустые чаты и треки после отношений.", "расставание"],
+  ["biblioteka/nastroenie/teksty-pro-odinochestvo", "Тексты про одиночество", "Тексты про одиночество, ночной город, тишину и состояние, которое хочется записать в трек.", "одиночество"],
+  ["biblioteka/nastroenie/teksty-pro-mechtu", "Тексты про мечту", "Тексты про мечту, движение, веру в себя и желание выйти на новый уровень.", "мечта"],
+  ["biblioteka/nastroenie/teksty-pro-semiyu", "Тексты про семью", "Тексты про семью, поддержку, близких людей и смысл, который держит артиста на плаву.", "семья"],
+  ["biblioteka/nastroenie/teksty-pro-bol", "Тексты про боль", "Тексты про боль, внутреннее напряжение и эмоции, которые хорошо ложатся на лиричный бит.", "боль"],
+  ["biblioteka/nastroenie/teksty-pro-gorod", "Тексты про город", "Тексты про город, улицы, студию, ночные мысли и атмосферу большого движения.", "город"],
+  ["biblioteka/nastroenie/teksty-pro-uspeh", "Тексты про успех", "Тексты про успех, деньги, амбиции, рост и желание доказать свой уровень.", "успех"],
+  ["biblioteka/zhanry/teksty-dlya-drill", "Тексты для drill", "Тексты для drill-бита: жёсткая подача, короткие строки, энергия района и плотный ритм.", "drill"],
+  ["biblioteka/zhanry/teksty-dlya-plug", "Тексты для plug", "Тексты для plug и melodic plug: воздушные строки, лёгкий вайб и современная подача.", "plug"],
+  ["biblioteka/zhanry/teksty-dlya-new-jazz", "Тексты для new jazz", "Тексты для new jazz, rage и свежего звучания, где важны ритм, флоу и необычные фразы.", "new jazz"],
+  ["biblioteka/zhanry/teksty-dlya-rage", "Тексты для rage", "Тексты для rage-бита: энергия, драйв, клубная подача и строки для яркого трека.", "rage"],
+  ["biblioteka/zhanry/teksty-dlya-pop-rap", "Тексты для pop rap", "Тексты для pop rap: понятные хуки, запоминающиеся фразы и лёгкая структура для песни.", "pop rap"],
+  ["biblioteka/zhanry/teksty-dlya-melodichnogo-repa", "Тексты для мелодичного рэпа", "Тексты для мелодичного рэпа, где важны чувства, припев и плавная подача.", "мелодичный рэп"],
+  ["biblioteka/zhanry/teksty-dlya-lofi", "Тексты для lo-fi", "Тексты для lo-fi и спокойного бита: мягкая лирика, заметки и ночная атмосфера.", "lo-fi"],
+  ["biblioteka/zhanry/teksty-dlya-klubnogo-treka", "Тексты для клубного трека", "Тексты для клубного трека, танцевального вайба, сторис и короткого запоминающегося хука.", "клуб"],
+  ["biblioteka/formaty/korotkie-teksty-dlya-pesen", "Короткие тексты для песен", "Короткие тексты для песен, которые можно быстро прочитать с телефона и примерить на бит.", "короткие тексты"],
+  ["biblioteka/formaty/dlinnye-teksty-dlya-pesen", "Длинные тексты для песен", "Длинные текстовые заготовки для тех, кто хочет развить куплет, историю и полноценный трек.", "длинные тексты"],
+  ["biblioteka/formaty/pervaya-stroka-dlya-pesni", "Первая строка для песни", "Первая строка для песни, если сложно начать текст, но хочется сразу поймать настроение.", "первая строка"],
+  ["biblioteka/formaty/idei-dlya-pripeva", "Идеи для припева", "Идеи для припева, хука и повторяющейся фразы, которая может держать весь трек.", "припев"],
+  ["biblioteka/formaty/idei-dlya-kupleta", "Идеи для куплета", "Идеи для куплета, чтобы разогнать мысль, флоу и историю внутри трека.", "куплет"],
+  ["biblioteka/formaty/frazy-dlya-treka", "Фразы для трека", "Фразы для трека, которые можно использовать как старт, панч, хук или связку между строками.", "фразы"],
+  ["biblioteka/formaty/rifmy-dlya-pesni", "Рифмы для песни", "Рифмы и текстовые заготовки для песни, когда нужно быстрее собрать куплет или припев.", "рифмы"],
+  ["biblioteka/formaty/podpisi-dlya-muzykalnyh-video", "Подписи для музыкальных видео", "Подписи и строки для музыкальных видео, Reels, Shorts, TikTok и промо трека.", "видео"],
+  ["biblioteka/dlya-kogo/teksty-dlya-molodyh-artistov", "Тексты для молодых артистов", "Тексты для молодых артистов, которые ищут основу для первых песен и демо-записей.", "молодым артистам"],
+  ["biblioteka/dlya-kogo/teksty-dlya-reperov", "Тексты для рэперов", "Тексты для рэперов: куплеты, панчи, хуки и строки под современный бит.", "рэперам"],
+  ["biblioteka/dlya-kogo/teksty-dlya-bitmeykerov", "Тексты для битмейкеров", "Тексты для битмейкеров, которым нужны демо-строки для проверки бита и подачи.", "битмейкерам"],
+  ["biblioteka/dlya-kogo/teksty-dlya-vokalistov", "Тексты для вокалистов", "Тексты для вокалистов, мелодичных припевов, куплетов и лиричных музыкальных идей.", "вокалистам"],
+  ["biblioteka/dlya-kogo/teksty-dlya-avtorov-pesen", "Тексты для авторов песен", "Тексты для авторов песен, которым нужна искра, структура или направление для нового трека.", "авторам"],
+  ["biblioteka/dlya-kogo/teksty-dlya-tiktok-artistov", "Тексты для TikTok артистов", "Тексты для TikTok артистов: короткие строки, хуки и идеи для быстрого музыкального ролика.", "tiktok артистам"],
+  ["biblioteka/poisk/besplatnye-teksty-bez-ap", "Бесплатные тексты без АП", "Бесплатные тексты без авторских прав для песен, демо, TikTok и релизов.", "без АП"],
+  ["biblioteka/poisk/gde-vzyat-tekst-dlya-pesni", "Где взять текст для песни", "Где взять текст для песни бесплатно и быстро перейти от пустой заметки к записи.", "где взять текст"],
+  ["biblioteka/poisk/skachat-tekst-dlya-pesni", "Скачать текст для песни", "Скачать текст для песни нельзя буквально, но можно открыть бесплатную базу и взять строки для трека.", "скачать текст"],
+  ["biblioteka/poisk/vzyat-tekst-dlya-treka", "Взять текст для трека", "Взять текст для трека, адаптировать под свой бит и выпустить песню на площадках.", "взять текст"],
+  ["biblioteka/poisk/tekst-dlya-bita", "Текст для бита", "Текст для бита, когда инструментал уже есть, а слов для записи пока не хватает.", "текст для бита"],
+  ["biblioteka/poisk/tekst-dlya-minusa", "Текст для минуса", "Текст для минуса, демо и авторского трека: готовые строки и идеи из TEXT4FREE.", "минус"],
+  ["biblioteka/poisk/tekst-dlya-zapisi", "Текст для записи", "Текст для записи на студии, дома или в заметках, чтобы быстрее проверить звучание трека.", "запись"],
+  ["biblioteka/poisk/free-text-bit", "Free Text Bit", "Free Text Bit: бесплатные тексты, хуки, куплеты и идеи под бит из проекта TEXT4FREE.", "free text bit"],
+  ["biblioteka/mobile/teksty-s-telefona", "Тексты с телефона", "Тексты с телефона: удобно открыть, быстро прочитать и сразу записать под свой бит.", "телефон"],
+  ["biblioteka/mobile/teksty-dlya-zametok", "Тексты для заметок", "Тексты для заметок, которые можно сохранить, адаптировать и развить в полноценный трек.", "заметки"],
+  ["biblioteka/mobile/teksty-dlya-storis", "Тексты для сторис", "Тексты для сторис, коротких видео и музыкальных публикаций в соцсетях.", "сторис"],
+  ["biblioteka/mobile/teksty-dlya-klipov", "Тексты для клипов", "Тексты для клипов, сниппетов и коротких музыкальных фрагментов.", "клипы"],
+  ["biblioteka/mobile/teksty-dlya-snippetov", "Тексты для сниппетов", "Тексты для сниппетов, teaser-видео и коротких музыкальных анонсов.", "сниппеты"],
+  ["biblioteka/mobile/teksty-dlya-repeticii", "Тексты для репетиции", "Тексты для репетиции подачи, флоу и записи демо под разные биты.", "репетиция"],
+  ["biblioteka/longtail/tekst-pesni-dlya-novichka", "Текст песни для новичка", "Текст песни для новичка, который хочет записать первый трек без долгого поиска слов.", "новичок"],
+  ["biblioteka/longtail/kak-napisat-pesnyu-s-nulya", "Как написать песню с нуля", "Как написать песню с нуля: взять готовую искру, примерить на бит и развить под себя.", "с нуля"],
+  ["biblioteka/longtail/chto-delat-esli-net-teksta", "Что делать если нет текста", "Что делать, если нет текста для песни: открыть базу строк и начать с готовой идеи.", "нет текста"],
+  ["biblioteka/longtail/tekst-dlya-pervogo-treka", "Текст для первого трека", "Текст для первого трека, чтобы быстрее перейти от идеи к записи и публикации.", "первый трек"],
+  ["biblioteka/longtail/tekst-dlya-treka-bez-prav", "Текст для трека без прав", "Текст для трека без авторских прав: готовые строки и идеи для записи под бит.", "без прав"],
+  ["biblioteka/longtail/besplatnye-slova-dlya-pesni", "Бесплатные слова для песни", "Бесплатные слова для песни, куплета, припева, хука или короткого музыкального ролика.", "слова бесплатно"],
+  ["biblioteka/longtail/gotovye-stroki-dlya-repa", "Готовые строки для рэпа", "Готовые строки для рэпа, панчи и фразы, которые можно развить в свой куплет.", "строки рэп"],
+  ["biblioteka/longtail/tekst-dlya-treka-v-telegram", "Текст для трека в Telegram", "Текст для трека в Telegram: основная база TEXT4FREE находится в канале со свежими публикациями.", "telegram"],
+];
+
+const allPages = [...pages, ...hiddenPages];
+const related = allPages.slice(0, 24);
 
 function esc(value) {
   return String(value)
@@ -97,11 +153,13 @@ function esc(value) {
 
 function pageTemplate(page, index) {
   const [slug, title, description, tag] = page;
+  const depthPrefix = "../".repeat(slug.split("/").length);
   const chosen = [snippets[index % snippets.length], snippets[(index + 2) % snippets.length], snippets[(index + 4) % snippets.length]];
-  const relatedLinks = related
+  const relatedPool = index >= pages.length ? allPages.slice(Math.max(0, index - 8), index).concat(allPages.slice(index + 1, index + 13)) : related;
+  const relatedLinks = relatedPool
     .filter(([relatedSlug]) => relatedSlug !== slug)
     .slice(0, 8)
-    .map(([relatedSlug, relatedTitle]) => `<a class="mini-link" href="../${relatedSlug}/">${esc(relatedTitle)}</a>`)
+    .map(([relatedSlug, relatedTitle]) => `<a class="mini-link" href="${depthPrefix}${relatedSlug}/">${esc(relatedTitle)}</a>`)
     .join("\n          ");
 
   return `<!DOCTYPE html>
@@ -114,10 +172,10 @@ function pageTemplate(page, index) {
   <meta name="description" content="${esc(description)}" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
   <link rel="canonical" href="${domain}/${slug}/" />
-  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
-  <link rel="apple-touch-icon" href="../avatar.png.jpg" />
-  <link rel="stylesheet" href="../seo-style.css" />
-  <script defer src="../analytics.js"></script>
+  <link rel="icon" type="image/svg+xml" href="${depthPrefix}favicon.svg" />
+  <link rel="apple-touch-icon" href="${depthPrefix}avatar.png.jpg" />
+  <link rel="stylesheet" href="${depthPrefix}seo-style.css" />
+  <script defer src="${depthPrefix}analytics.js"></script>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -133,7 +191,7 @@ function pageTemplate(page, index) {
 <body>
   <main class="wrap">
     <header class="nav">
-      <a class="brand" href="../"><span class="brand-mark">T4F</span><span>TEXT4FREE</span></a>
+      <a class="brand" href="${depthPrefix}"><span class="brand-mark">T4F</span><span>TEXT4FREE</span></a>
       <a href="${telegramUrl}" target="_blank" rel="noopener noreferrer">Telegram</a>
     </header>
 
@@ -186,11 +244,74 @@ function pageTemplate(page, index) {
 `;
 }
 
-for (const [index, page] of pages.entries()) {
+function libraryTemplate() {
+  const groups = hiddenPages.reduce((acc, page) => {
+    const [slug] = page;
+    const group = slug.split("/")[1] || "razdely";
+    acc[group] ||= [];
+    acc[group].push(page);
+    return acc;
+  }, {});
+  const groupTitles = {
+    nastroenie: "По настроению",
+    zhanry: "По жанрам",
+    formaty: "По формату",
+    "dlya-kogo": "Для кого",
+    poisk: "По поисковым запросам",
+    mobile: "Для телефона и коротких видео",
+    longtail: "Длинные запросы",
+  };
+  const sections = Object.entries(groups).map(([group, items]) => `<section class="section">
+      <h2>${esc(groupTitles[group] || group)}</h2>
+      <div class="mini-grid">
+        ${items.map(([slug, title]) => `<a class="mini-link" href="../${slug}/">${esc(title)}</a>`).join("\n        ")}
+      </div>
+    </section>`).join("\n\n    ");
+
+  return `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090909" />
+  <title>Скрытая SEO-библиотека текстов для песен | TEXT4FREE</title>
+  <meta name="description" content="Глубинная библиотека TEXT4FREE: тексты для песен, рэпа, TikTok, Reels, демо, релизов и начинающих артистов." />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="${domain}/biblioteka/" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../seo-style.css" />
+  <script defer src="../analytics.js"></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="nav">
+      <a class="brand" href="../"><span class="brand-mark">T4F</span><span>TEXT4FREE</span></a>
+      <a href="${telegramUrl}" target="_blank" rel="noopener noreferrer">Telegram</a>
+    </header>
+    <section class="hero">
+      <div class="eyebrow">глубокая база / SEO</div>
+      <h1>Библиотека текстов для песен</h1>
+      <p>Эта страница собрана для глубокой навигации по нишевым запросам. На сайте - категории и примеры, в Telegram - основная база и тысячи строк.</p>
+      <div class="cta-row">
+        <a class="btn" href="${telegramUrl}" target="_blank" rel="noopener noreferrer">Открыть Telegram</a>
+        <a class="btn alt" href="../teksty-bez-avtorskih-prav/">Главный раздел</a>
+      </div>
+    </section>
+    ${sections}
+    <footer class="footer">TEXT4FREE © 2026 · скрытая SEO-библиотека</footer>
+  </main>
+</body>
+</html>
+`;
+}
+
+for (const [index, page] of allPages.entries()) {
   const [slug] = page;
   mkdirSync(slug, { recursive: true });
   writeFileSync(join(slug, "index.html"), pageTemplate(page, index), "utf8");
 }
+mkdirSync("biblioteka", { recursive: true });
+writeFileSync(join("biblioteka", "index.html"), libraryTemplate(), "utf8");
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -200,11 +321,17 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-${pages.map(([slug], index) => `  <url>
+  <url>
+    <loc>${domain}/biblioteka/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
+  </url>
+${allPages.map(([slug], index) => `  <url>
     <loc>${domain}/${slug}/</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>${index < 3 ? "0.95" : index < 12 ? "0.88" : "0.78"}</priority>
+    <priority>${index < 3 ? "0.95" : index < 12 ? "0.88" : index < pages.length ? "0.78" : "0.64"}</priority>
   </url>`).join("\n")}
 </urlset>
 `;
@@ -244,6 +371,9 @@ if (start !== -1 && end !== -1) {
       <div class="seo-grid">
 ${cards}
       </div>
+      <div class="deep-library-link">
+        <a href="biblioteka/">Открыть скрытую SEO-библиотеку</a>
+      </div>
     </section>
 
 `;
@@ -251,4 +381,4 @@ ${cards}
 }
 writeFileSync("index.html", indexHtml, "utf8");
 
-console.log(`Built ${pages.length} SEO pages and sitemap.`);
+console.log(`Built ${allPages.length} SEO pages and sitemap.`);
