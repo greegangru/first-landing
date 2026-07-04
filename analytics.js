@@ -1,5 +1,5 @@
 (function () {
-  var metrikaId = "";
+  var metrikaId = 110392286;
   if (!metrikaId) return;
 
   window.ym = window.ym || function () {
