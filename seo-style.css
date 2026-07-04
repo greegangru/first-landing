@@ -7,8 +7,21 @@ body {
   background:
     radial-gradient(circle at 20% 0%, rgba(216,255,79,.18), transparent 28%),
     radial-gradient(circle at 88% 18%, rgba(122,167,255,.16), transparent 24%),
+    linear-gradient(140deg, rgba(255,79,216,.09), transparent 35%),
     #090909;
   font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+body::before {
+  content: "тексты без авторских прав / free lyrics / text4free";
+  position: fixed;
+  inset: auto -30px 12%;
+  z-index: -1;
+  color: rgba(244,241,234,.035);
+  font-family: "Arial Black", Impact, sans-serif;
+  font-size: clamp(34px, 10vw, 120px);
+  line-height: .85;
+  text-transform: uppercase;
+  transform: rotate(-7deg);
 }
 a { color: inherit; text-decoration: none; }
 .wrap { width: min(100%, 900px); margin: 0 auto; padding: 14px; }
@@ -18,12 +31,23 @@ a { color: inherit; text-decoration: none; }
   padding: 10px; border: 1px solid rgba(244,241,234,.14); border-radius: 8px;
   background: rgba(9,9,9,.78); backdrop-filter: blur(18px);
 }
-.brand { font-family: "Arial Black", Impact, sans-serif; text-transform: uppercase; font-size: 14px; }
+.brand { display: inline-flex; align-items: center; gap: 8px; font-family: "Arial Black", Impact, sans-serif; text-transform: uppercase; font-size: 14px; }
+.brand-mark {
+  width: 34px; height: 34px; display: grid; place-items: center;
+  border-radius: 8px; background: #d8ff4f; color: #080808; font-size: 12px;
+  box-shadow: 0 0 28px rgba(216,255,79,.26);
+}
 .nav a:not(.brand) {
   padding: 10px 12px; border: 1px solid rgba(216,255,79,.38); border-radius: 8px;
   color: #d8ff4f; font-size: 12px; font-weight: 900; text-transform: uppercase;
 }
 .hero { padding: 42px 0 20px; }
+.hero-seo {
+  min-height: 72vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .eyebrow { color: #d8ff4f; font-size: 12px; font-weight: 950; text-transform: uppercase; }
 h1, h2, h3 { font-family: "Arial Black", Impact, sans-serif; text-transform: uppercase; line-height: .95; }
 h1 { margin: 14px 0 0; font-size: 43px; }
@@ -39,6 +63,7 @@ p { color: rgba(244,241,234,.72); line-height: 1.55; font-weight: 650; }
 .card {
   padding: 16px; border: 1px solid rgba(244,241,234,.14); border-radius: 8px;
   background: linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.035));
+  box-shadow: 0 18px 60px rgba(0,0,0,.22);
 }
 .card h3 { margin: 0 0 10px; font-size: 18px; }
 .lyrics {
@@ -46,10 +71,32 @@ p { color: rgba(244,241,234,.72); line-height: 1.55; font-weight: 650; }
   padding: 12px; border-left: 2px solid #d8ff4f; background: rgba(0,0,0,.22);
 }
 .links { display: grid; gap: 8px; margin-top: 14px; }
+.proof-row {
+  display: grid; gap: 8px; margin-top: 16px;
+}
+.proof-row span {
+  padding: 10px 12px; border: 1px solid rgba(244,241,234,.12); border-radius: 8px;
+  background: rgba(255,255,255,.04); color: rgba(244,241,234,.72);
+  font-size: 12px; font-weight: 950; text-transform: uppercase;
+}
 .pill {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   padding: 12px 14px; border: 1px solid rgba(244,241,234,.14); border-radius: 8px;
   background: rgba(255,255,255,.045); font-weight: 900; text-transform: uppercase;
+}
+.conversion-panel {
+  padding: 18px;
+  border: 1px solid rgba(216,255,79,.28);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(216,255,79,.16), transparent 34%),
+    linear-gradient(135deg, rgba(255,255,255,.105), rgba(255,255,255,.035));
+}
+.mini-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.mini-link {
+  padding: 10px 12px; border: 1px solid rgba(244,241,234,.14); border-radius: 8px;
+  background: rgba(255,255,255,.045); color: rgba(244,241,234,.82);
+  font-size: 12px; font-weight: 900; text-transform: uppercase;
 }
 .section { padding: 38px 0 0; }
 .footer { padding: 40px 0 20px; color: rgba(244,241,234,.48); text-align: center; font-size: 12px; }
@@ -58,4 +105,5 @@ p { color: rgba(244,241,234,.72); line-height: 1.55; font-weight: 650; }
   h2 { font-size: 44px; }
   .grid { grid-template-columns: repeat(2, 1fr); }
   .cta-row, .links { grid-template-columns: repeat(3, 1fr); }
+  .proof-row { grid-template-columns: repeat(3, 1fr); }
 }

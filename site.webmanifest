@@ -1,0 +1,14 @@
+{
+  "name": "TEXT4FREE",
+  "short_name": "T4F",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml"
+    }
+  ],
+  "theme_color": "#090909",
+  "background_color": "#090909",
+  "display": "standalone"
+}
