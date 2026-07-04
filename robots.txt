@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Host: textydlyapesen.ru
+Sitemap: https://textydlyapesen.ru/sitemap.xml
