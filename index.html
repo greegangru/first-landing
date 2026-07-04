@@ -128,6 +128,45 @@
       overflow: hidden;
     }
 
+    .scroll-icons {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .scroll-icon {
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(244, 241, 234, 0.12);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.035);
+      color: rgba(244, 241, 234, 0.36);
+      font-size: 18px;
+      font-weight: 950;
+      opacity: 0;
+      transform: translateY(24px) scale(0.86);
+      transition: opacity 700ms ease, transform 700ms ease;
+      filter: blur(0.1px);
+    }
+
+    .scroll-icon.left { left: 8px; }
+    .scroll-icon.right { right: 8px; }
+    .scroll-icon:nth-child(1) { top: 28%; color: rgba(216, 255, 79, 0.45); }
+    .scroll-icon:nth-child(2) { top: 46%; color: rgba(122, 167, 255, 0.45); transition-delay: 120ms; }
+    .scroll-icon:nth-child(3) { top: 64%; color: rgba(255, 79, 216, 0.42); transition-delay: 240ms; }
+    .scroll-icon:nth-child(4) { top: 80%; color: rgba(79, 255, 210, 0.42); transition-delay: 360ms; }
+
+    .scroll-icons.is-active .scroll-icon {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      animation: iconFloat 5s ease-in-out infinite;
+    }
+
     .nav {
       position: sticky;
       top: 10px;
@@ -208,6 +247,46 @@
       gap: 28px;
       padding: 38px 0 18px;
     }
+
+    .hero-content {
+      position: relative;
+    }
+
+    .dust {
+      position: absolute;
+      inset: -6px 0 auto;
+      height: 170px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 300ms ease;
+    }
+
+    .dust span {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0;
+      transform: translate3d(0, 0, 0) scale(0.5);
+    }
+
+    .hero-content.is-dusting .dust {
+      opacity: 1;
+    }
+
+    .hero-content.is-dusting .dust span {
+      animation: dustBreak 900ms ease-out forwards;
+    }
+
+    .dust span:nth-child(1) { left: 8%; top: 22px; animation-delay: 0ms; }
+    .dust span:nth-child(2) { left: 18%; top: 72px; animation-delay: 40ms; background: var(--blue); }
+    .dust span:nth-child(3) { left: 29%; top: 36px; animation-delay: 90ms; background: var(--pink); }
+    .dust span:nth-child(4) { left: 41%; top: 96px; animation-delay: 130ms; }
+    .dust span:nth-child(5) { left: 54%; top: 58px; animation-delay: 180ms; background: var(--cyan); }
+    .dust span:nth-child(6) { left: 66%; top: 24px; animation-delay: 220ms; }
+    .dust span:nth-child(7) { left: 78%; top: 82px; animation-delay: 260ms; background: var(--blue); }
+    .dust span:nth-child(8) { left: 88%; top: 44px; animation-delay: 310ms; background: var(--pink); }
 
     .eyebrow {
       display: inline-flex;
@@ -517,6 +596,8 @@
       display: grid;
       grid-template-columns: 40px 1fr;
       gap: 13px;
+      align-items: center;
+      min-height: 74px;
       padding: 16px 0;
       border-bottom: 1px solid var(--line);
     }
@@ -535,6 +616,7 @@
     .step h3 {
       margin: 0;
       font-size: 15px;
+      line-height: 1.18;
       font-weight: 950;
       text-transform: uppercase;
     }
@@ -584,9 +666,22 @@
       transition: opacity 760ms ease, transform 760ms ease;
     }
 
+    .reveal.from-left {
+      transform: translateX(-26px);
+    }
+
+    .reveal.from-right {
+      transform: translateX(26px);
+    }
+
     .reveal.is-visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    .reveal.from-left.is-visible,
+    .reveal.from-right.is-visible {
+      transform: translateX(0);
     }
 
     @keyframes ticker {
@@ -628,6 +723,17 @@
     @keyframes stripSlide {
       from { transform: translateX(-12px) rotate(-1deg); }
       to { transform: translateX(18px) rotate(1deg); }
+    }
+
+    @keyframes dustBreak {
+      0% { opacity: 0; transform: translate3d(0, 0, 0) scale(0.4); }
+      12% { opacity: 1; }
+      100% { opacity: 0; transform: translate3d(var(--dx, 24px), var(--dy, -38px), 0) scale(1.2); }
+    }
+
+    @keyframes iconFloat {
+      0%, 100% { translate: 0 0; }
+      50% { translate: 0 -10px; }
     }
 
     @media (min-width: 760px) {
@@ -680,6 +786,12 @@
     <span>no copyright lyrics</span>
   </div>
   <div class="torn-strip" aria-hidden="true"></div>
+  <div class="scroll-icons" aria-hidden="true">
+    <span class="scroll-icon left">♪</span>
+    <span class="scroll-icon right">✦</span>
+    <span class="scroll-icon left">#</span>
+    <span class="scroll-icon right">↗</span>
+  </div>
 
   <main class="page">
     <header class="nav">
@@ -707,6 +819,10 @@
 
     <section class="hero" id="top">
       <div class="hero-content reveal">
+        <div class="dust" aria-hidden="true">
+          <span style="--dx:-18px;--dy:-46px"></span><span style="--dx:24px;--dy:-58px"></span><span style="--dx:-30px;--dy:-34px"></span><span style="--dx:34px;--dy:-42px"></span>
+          <span style="--dx:-22px;--dy:-66px"></span><span style="--dx:28px;--dy:-50px"></span><span style="--dx:-38px;--dy:-38px"></span><span style="--dx:42px;--dy:-62px"></span>
+        </div>
         <div class="eyebrow">тексты без авторских прав</div>
         <h1><span class="outline-word">тексты</span> без авторских <span class="accent-word">прав</span></h1>
         <p class="hero-copy">TEXT4FREE - библиотека текстов для песен, которые можно брать как основу под свой бит, записывать и выпускать на площадках.</p>
@@ -728,8 +844,8 @@
       </div>
     </div>
 
-    <section class="section reveal" id="links">
-      <div class="links-panel reveal">
+    <section class="section reveal from-left" id="links">
+      <div class="links-panel reveal from-right">
         <p class="section-label">наши проекты есть в:</p>
         <h2>Telegram, VK и MAX</h2>
         <p class="lead">В этих каналах выходят тексты без авторских прав: бери любой текст, записывай под свой бит и выкладывай на площадки.</p>
@@ -738,27 +854,27 @@
             <span class="social-icon tg" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M21.7 4.3 18.4 20c-.2 1-1 1.2-1.8.7l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1L18 6.2c.4-.4-.1-.6-.6-.3L5.8 13.2.8 11.6c-1.1-.3-1.1-1.1.2-1.6L20.4 2.5c.9-.3 1.7.2 1.3 1.8Z"/></svg>
             </span>
-            Telegram <small>активно</small>
+            Telegram
           </a>
           <a class="social-link vk-link" href="https://vk.com/pesni_bez_ap" target="_blank" rel="noopener noreferrer">
             <span class="social-icon vk" aria-hidden="true">VK</span>
-            VK <small>сообщество</small>
+            VK
           </a>
           <a class="social-link max-link" href="https://max.ru/freetextbit" target="_blank" rel="noopener noreferrer">
             <span class="social-icon max" aria-hidden="true">MAX</span>
-            MAX <small>канал</small>
+            MAX
           </a>
         </div>
       </div>
     </section>
 
-    <section class="section reveal">
+    <section class="section reveal from-right">
       <div class="manifesto">
         <p>Бери текст без авторских прав. Записывай под свой бит. <em>Выпускай трек.</em></p>
       </div>
     </section>
 
-    <section class="section reveal">
+    <section class="section reveal from-left">
       <p class="section-label">как это работает</p>
       <h2>От пустой заметки до первого трека</h2>
       <div class="steps">
@@ -768,7 +884,7 @@
       </div>
     </section>
 
-    <section class="cta reveal">
+    <section class="cta reveal from-right">
       <div>
         <h2>Тексты без авторских прав уже ждут тебя</h2>
         <p>Открывай TEXT4FREE, выбирай любой текст, записывай под свой бит и выпускай трек на площадках.</p>
@@ -783,6 +899,10 @@
 
   <script>
     const animatedItems = document.querySelectorAll('.reveal');
+    const scrollIcons = document.querySelector('.scroll-icons');
+    const heroContent = document.querySelector('.hero-content');
+    let dustReady = true;
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -793,6 +913,23 @@
     }, { threshold: 0.18 });
 
     animatedItems.forEach((item) => observer.observe(item));
+
+    const reactToScroll = () => {
+      const y = window.scrollY || document.documentElement.scrollTop;
+      scrollIcons?.classList.toggle('is-active', y > 120);
+
+      if (heroContent && y > 80 && y < 520 && dustReady) {
+        dustReady = false;
+        heroContent.classList.add('is-dusting');
+        window.setTimeout(() => {
+          heroContent.classList.remove('is-dusting');
+          dustReady = true;
+        }, 1100);
+      }
+    };
+
+    window.addEventListener('scroll', reactToScroll, { passive: true });
+    reactToScroll();
   </script>
 </body>
 </html>
